@@ -42,7 +42,7 @@ public class LogfileReader implements Iterator<LogEntry>
      * from a particular log file. 
      * @param filename The file of log data.
      */
-    public LogfileReader(String filename)
+    public LogfileReader(String file)
     {
         // The format for the data.
         format = "Year Month(1-12) Day Hour Minute";       
@@ -53,9 +53,9 @@ public class LogfileReader implements Iterator<LogEntry>
         boolean dataRead;
         try{
             // Locate the file with respect to the current environment.
-            URL fileURL = getClass().getClassLoader().getResource(filename);
+            URL fileURL = getClass().getClassLoader().getResource(file);
             if(fileURL == null) {
-                throw new FileNotFoundException(filename);
+                throw new FileNotFoundException(file);
             }
             Scanner logfile = new Scanner(new File(fileURL.toURI()));
             // Read the data lines until the end of file.
@@ -74,7 +74,7 @@ public class LogfileReader implements Iterator<LogEntry>
         }
         // If we couldn't read the log file, use simulated data.
         if(!dataRead) {
-            System.out.println("Failed to read the data file: " + filename);
+            System.out.println("Failed to read the data file: " + file);
             System.out.println("Using simulated data instead.");
             createSimulatedData(entries);
         }
